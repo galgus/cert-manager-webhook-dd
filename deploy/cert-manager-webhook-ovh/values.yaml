@@ -12,6 +12,14 @@ certManager:
   namespace: cert-manager
   serviceAccountName: cert-manager
 
+# If enabled (default) the webhook will run as the specifieduser and group.
+# Furthermore, the specified allowPrivilegeEscalation is applied to the pod.
+securityContext:
+  enabled: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  allowPrivilegeEscalation: false
+
 image:
   repository: baarde/cert-manager-webhook-ovh
   # tag: latest
