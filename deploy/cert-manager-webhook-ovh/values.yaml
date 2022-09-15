@@ -16,7 +16,10 @@ image:
   repository: baarde/cert-manager-webhook-ovh
   # tag: latest
   pullPolicy: IfNotPresent
+  # Use this set to assign a list of default pullSecrets
   pullSecrets: []
+    # - name: docker-registry-secret
+    # - name: internal-registry-secret
 
 nameOverride: ""
 fullnameOverride: ""
