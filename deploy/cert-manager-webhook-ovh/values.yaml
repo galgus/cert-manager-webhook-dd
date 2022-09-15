@@ -8,6 +8,12 @@
 # here is recommended.
 groupName: acme.mycompany.example
 
+# if enabled (default) the Chart will create the necessary Role for the
+# webhook to access the specified secret.
+ovhApplicationSecret:
+  enabled: true
+  secretName: "ovh-credentials"
+
 certManager:
   namespace: cert-manager
   serviceAccountName: cert-manager

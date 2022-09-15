@@ -127,3 +127,29 @@ subjects:
     kind: ServiceAccount
     name: {{ include "cert-manager-webhook-ovh.fullname" . }}
     namespace: {{ .Release.Namespace | quote }}
+---
+{{- if .Values.ovhApplicationSecret.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "cert-manager-webhook-ovh.fullname" . }}:secret-reader
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: [{{ .Values.ovhApplicationSecret.secretName }}]
+  verbs: ["get", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "cert-manager-webhook-ovh.fullname" . }}:secret-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "cert-manager-webhook-ovh.fullname" . }}:secret-reader
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: {{ include "cert-manager-webhook-ovh.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
+{{- end }}
