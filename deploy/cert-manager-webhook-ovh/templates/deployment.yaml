@@ -23,7 +23,7 @@ spec:
       imagePullSecrets:
 {{ toYaml .Values.image.pullSecrets | indent 8 }}
       serviceAccountName: {{ include "cert-manager-webhook-ovh.fullname" . }}
-{{- if and .Values.securityContext.enabled .Values.persistence.enabled }}
+{{- if .Values.securityContext.enabled }}
       securityContext:
         runAsUser: {{ .Values.securityContext.runAsUser }}
         runAsGroup: {{ .Values.securityContext.runAsGroup }}
@@ -71,7 +71,7 @@ spec:
               readOnly: true
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-{{- if and .Values.securityContext.enabled .Values.persistence.enabled }}
+{{- if .Values.securityContext.enabled }}
           securityContext:
             allowPrivilegeEscalation: {{ .Values.securityContext.allowPrivilegeEscalation }}
 {{- end }}
