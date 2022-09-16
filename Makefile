@@ -1,5 +1,7 @@
-IMAGE_NAME := "baarde/cert-manager-webhook-ovh"
+IMAGE_NAME := "aureq/cert-manager-webhook-ovh"
 IMAGE_TAG := "latest"
+
+.PHONY: rendered-manifest.yaml test build
 
 OUT := $(shell pwd)/_out
 TEST_ASSET_ETCD := $(OUT)/kubebuilder/bin/etcd
@@ -14,12 +16,12 @@ test:
 	go test -v .
 
 build:
-	docker build -t "$(IMAGE_NAME):$(IMAGE_TAG)" .
+	@test -z "$$HTTP_PROXY" -a -z "$$HTTPS_PROXY" || docker build --build-arg "HTTP_PROXY=$$HTTP_PROXY" --build-arg "HTTPS_PROXY=$$HTTPS_PROXY" -t "$(IMAGE_NAME):$(IMAGE_TAG)" .
+	@test ! -z "$$HTTP_PROXY" -o ! -z "$$HTTPS_PROXY" || docker build -t "$(IMAGE_NAME):$(IMAGE_TAG)" .
 
-.PHONY: rendered-manifest.yaml
 rendered-manifest.yaml:
 	helm template \
-	    --name cert-manager-webhook-ovh \
+	    cert-manager-webhook-ovh \
         --set image.repository=$(IMAGE_NAME) \
         --set image.tag=$(IMAGE_TAG) \
-        deploy/cert-manager-webhook-ovh > "$(OUT)/rendered-manifest.yaml"
+        charts/cert-manager-webhook-ovh > "$(OUT)/rendered-manifest.yaml"
