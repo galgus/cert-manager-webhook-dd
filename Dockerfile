@@ -28,4 +28,4 @@ COPY --from=build /workspace/webhook /usr/local/bin/webhook
 # allow bind() for ports < 1024 as non-root
 RUN setcap cap_net_bind_service=+ep /usr/local/bin/webhook
 
-ENTRYPOINT ["webhook"]
+ENTRYPOINT ["/usr/local/bin/webhook"]
