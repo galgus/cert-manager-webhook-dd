@@ -26,5 +26,6 @@ RUN apk update && \
     rm -rf /var/cache/apk/*
 
 COPY --from=build /workspace/webhook /usr/local/bin/webhook
+RUN setcap cap_net_bind_service=+ep /usr/local/bin/webhook
 
 ENTRYPOINT ["webhook"]
