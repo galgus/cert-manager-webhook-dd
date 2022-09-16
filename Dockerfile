@@ -1,6 +1,8 @@
 FROM golang:1.18-alpine AS build_deps
 
-RUN apk add --no-cache git
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache git
 
 WORKDIR /workspace
 ENV GO111MODULE=on
@@ -18,7 +20,10 @@ RUN CGO_ENABLED=0 go build -o webhook -ldflags '-s -w -extldflags "-static"' .
 
 FROM alpine:3.16
 
-RUN apk add --no-cache ca-certificates
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache ca-certificates && \
+    rm -rf /var/cache/apk/*
 
 COPY --from=build /workspace/webhook /usr/local/bin/webhook
 
