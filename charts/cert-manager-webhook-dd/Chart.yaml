@@ -1,0 +1,22 @@
+apiVersion: v2
+name: cert-manager-webhook-dd
+version: "0.4.0-alpha.0"
+description: DonDominio DNS cert-manager ACME webhook
+keywords:
+  - cert-manager
+  - dondominio
+  - dns
+  - lets-encrypt
+  - "Let's Encrypt"
+  - tls
+  - certificate
+  - ssl
+home: https://github.com/aureq/cert-manager-webhook-dd
+sources:
+  - https://github.com/aureq/cert-manager-webhook-dd
+maintainers:
+  - name: Aurélien Requiem
+    url: https://github.com/aureq
+icon: https://raw.githubusercontent.com/aureq/cert-manager-webhook-dd/main/assets/images/cert-manager-webhook-dd.svg
+deprecated: false
+appVersion: "v0.4.0-alpha0"

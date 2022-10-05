@@ -1,9 +1,8 @@
 {
-  "endpoint": "ovh-eu",
+  "endpoint": "https://simple-api.dondominio.net",
   "applicationKey": "<your-application-key>",
   "applicationSecretRef": {
-      "Name": "ovh-credentials",
+      "Name": "dd-credentials",
       "Key": "applicationSecret"
-  },
-  "consumerKey": "<your-consumer-key>"
+  }
 }

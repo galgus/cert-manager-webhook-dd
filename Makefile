@@ -1,5 +1,5 @@
-IMAGE_NAME := "aureq/cert-manager-webhook-ovh"
-IMAGE_TAG := "latest"
+IMAGE_NAME := "k41374/cert-manager-webhook-dd"
+IMAGE_TAG := "1.0.0"
 
 .PHONY: rendered-manifest.yaml test build
 
@@ -27,7 +27,7 @@ build:
 rendered-manifest.yaml:
 	@test -d "$(OUT)" || mkdir -p "$(OUT)"
 	@helm template \
-	    cert-manager-webhook-ovh \
+	    cert-manager-webhook-dd \
         --set image.repository=$(IMAGE_NAME) \
         --set image.tag=$(IMAGE_TAG) \
-        charts/cert-manager-webhook-ovh > "$(OUT)/rendered-manifest.yaml"
+        charts/cert-manager-webhook-dd > "$(OUT)/rendered-manifest.yaml"

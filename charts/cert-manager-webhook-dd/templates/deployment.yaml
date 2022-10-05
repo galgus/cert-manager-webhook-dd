@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "cert-manager-webhook-ovh.fullname" . }}
+  name: {{ include "cert-manager-webhook-dd.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ include "cert-manager-webhook-ovh.name" . }}
-    chart: {{ include "cert-manager-webhook-ovh.chart" . }}
+    app: {{ include "cert-manager-webhook-dd.name" . }}
+    chart: {{ include "cert-manager-webhook-dd.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "cert-manager-webhook-ovh.name" . }}
+      app: {{ include "cert-manager-webhook-dd.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "cert-manager-webhook-ovh.name" . }}
+        app: {{ include "cert-manager-webhook-dd.name" . }}
         release: {{ .Release.Name }}
     spec:
       imagePullSecrets:
 {{ toYaml .Values.image.pullSecrets | indent 8 }}
-      serviceAccountName: {{ include "cert-manager-webhook-ovh.fullname" . }}
+      serviceAccountName: {{ include "cert-manager-webhook-dd.fullname" . }}
 {{- if .Values.securityContext.enabled }}
       securityContext:
         runAsUser: {{ .Values.securityContext.runAsUser }}
@@ -70,7 +70,7 @@ spec:
       volumes:
         - name: certs
           secret:
-            secretName: {{ include "cert-manager-webhook-ovh.servingCertificate" . }}
+            secretName: {{ include "cert-manager-webhook-dd.servingCertificate" . }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

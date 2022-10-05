@@ -15,11 +15,10 @@ func TestRunsSuite(t *testing.T) {
 	// The manifest path should contain a file named config.json that is a
 	// snippet of valid configuration that should be included on the
 	// ChallengeRequest passed as part of the test cases.
-
-	fixture := dns.NewFixture(&ovhDNSProviderSolver{},
+	fixture := dns.NewFixture(&ddDNSProviderSolver{},
 		dns.SetResolvedZone(zone),
 		dns.SetAllowAmbientCredentials(false),
-		dns.SetManifestPath("testdata/ovh"),
+		dns.SetManifestPath("testdata/don_dominio"),
 	)
 
 	fixture.RunConformance(t)

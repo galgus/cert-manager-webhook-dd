@@ -10,7 +10,7 @@ groupName: acme.mycompany.example
 
 # if enabled (default) the Chart will create the necessary Role for the
 # webhook to access the specified secret.
-ovhApplicationSecret:
+ddApplicationSecret:
   enabled: true
   secretName: "ovh-credentials"
 
@@ -27,7 +27,7 @@ securityContext:
   allowPrivilegeEscalation: false
 
 image:
-  repository: baarde/cert-manager-webhook-ovh
+  repository: baarde/cert-manager-webhook-dd
   # tag: latest
   pullPolicy: IfNotPresent
   # Use this set to assign a list of default pullSecrets
