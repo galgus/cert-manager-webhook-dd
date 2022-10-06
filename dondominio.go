@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 	"sync/atomic"
 	"time"
@@ -54,10 +55,21 @@ type Client struct {
 
 // NewClient represents a new client to call the API
 func NewClient(endpoint, appKey, appSecret string) (*Client, error) {
+    var httpClient http.Client;
+    if proxyUrl, err := url.Parse(os.Getenv("PROXY")); err == nil {
+        fmt.Printf("PROXY: %s\n", proxyUrl)
+        httpClient = http.Client{
+            Transport: &http.Transport{
+                Proxy: http.ProxyURL(proxyUrl),
+            },
+        }
+    } else {
+        httpClient = http.Client{}
+    }
 	client := Client{
 		AppKey:    appKey,
 		AppSecret: appSecret,
-		Client:    &http.Client{},
+        Client:    &httpClient,
 		Timeout:   time.Duration(DefaultTimeout),
 	}
 
