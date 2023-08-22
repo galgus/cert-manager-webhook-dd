@@ -211,7 +211,8 @@ func (s *ddDNSProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error {
 	if err != nil {
 		return err
 	}
-	domain := util.UnFqdn(ch.ResolvedZone)
+	fmt.Printf("ResolvedZone: %s, ResolvedFQDN: %s\n", ch.ResolvedZone, ch.ResolvedFQDN)
+	domain := getDomain(ch.ResolvedFQDN)
 	subDomain := getSubDomain(domain, ch.ResolvedFQDN)
 	target := ch.Key
 	return addTXTRecord(ddClient, domain, subDomain, target)
@@ -228,7 +229,7 @@ func (s *ddDNSProviderSolver) CleanUp(ch *v1alpha1.ChallengeRequest) error {
 	if err != nil {
 		return err
 	}
-	domain := util.UnFqdn(ch.ResolvedZone)
+	domain := getDomain(ch.ResolvedFQDN)
 	target := ch.Key
 	return removeTXTRecord(ddClient, domain, target)
 }
@@ -265,6 +266,22 @@ func loadConfig(cfgJSON *extapi.JSON) (ddDNSProviderConfig, error) {
 	}
 
 	return cfg, nil
+}
+
+func getDomain(fqdn string) string {
+	domain := util.UnFqdn(fqdn)
+	i := 0
+	n := len(domain)
+	for ; n > 0 && i < 2; n-- {
+		if domain[n-1] == '.' {
+			i++
+		}
+	}
+	if i == 2 {
+		return domain[n+1:]
+	} else {
+		return domain
+	}
 }
 
 func getSubDomain(domain, fqdn string) string {

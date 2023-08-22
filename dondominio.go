@@ -55,21 +55,21 @@ type Client struct {
 
 // NewClient represents a new client to call the API
 func NewClient(endpoint, appKey, appSecret string) (*Client, error) {
-    var httpClient http.Client;
-    if proxyUrl, err := url.Parse(os.Getenv("PROXY")); err == nil {
-        fmt.Printf("PROXY: %s\n", proxyUrl)
-        httpClient = http.Client{
-            Transport: &http.Transport{
-                Proxy: http.ProxyURL(proxyUrl),
-            },
-        }
-    } else {
-        httpClient = http.Client{}
-    }
+	var httpClient http.Client
+	if proxyUrl, err := url.Parse(os.Getenv("PROXY")); err == nil {
+		//fmt.Printf("PROXY: %s\n", proxyUrl)
+		httpClient = http.Client{
+			Transport: &http.Transport{
+				Proxy: http.ProxyURL(proxyUrl),
+			},
+		}
+	} else {
+		httpClient = http.Client{}
+	}
 	client := Client{
 		AppKey:    appKey,
 		AppSecret: appSecret,
-        Client:    &httpClient,
+		Client:    &httpClient,
 		Timeout:   time.Duration(DefaultTimeout),
 	}
 
@@ -205,7 +205,7 @@ func (c *Client) NewRequest(method, path string, reqBody interface{}) (*http.Req
 	body.Set("apiuser", c.AppKey)
 	body.Set("apipasswd", c.AppSecret)
 
-	//fmt.Fprintf(os.Stdout, "url: %s, body %s\n", path, body.Encode())
+	fmt.Fprintf(os.Stdout, "url: %s, body %s\n", path, body.Encode())
 
 	target := fmt.Sprintf("%s%s", c.endpoint, path)
 	req, err := http.NewRequest(method, target, strings.NewReader(body.Encode()))
@@ -324,6 +324,8 @@ func (c *Client) UnmarshalResponse(response *http.Response, resType interface{})
 	if len(body) == 0 || resType == nil {
 		return nil
 	}
+
+	fmt.Printf("body: %s\n", string(body))
 
 	d := json.NewDecoder(bytes.NewReader(body))
 	d.UseNumber()
