@@ -331,7 +331,7 @@ func validateService(ddClient *Client, domain string) error {
 	if err != nil {
 		return fmt.Errorf("DonDominio API call failed: POST %s - %v", url, err)
 	}
-	if serviceInfo.ResponseData.Status != "active" {
+	if !serviceInfo.Success {
 		return fmt.Errorf("DonDominio service not deployed for domain %s", domain)
 	}
 
@@ -376,7 +376,7 @@ func createRecord(ddClient *Client, domain, fieldType, subDomain, target string)
 	record := ddServiceList{}
 	err := ddClient.Post(url, &params, &record)
 	if err != nil {
-		return nil, fmt.Errorf("DonDOminio API call failed: POST %s - %v", url, err)
+		return nil, fmt.Errorf("DonDominio API call failed: POST %s - %v", url, err)
 	}
 
 	return &record, nil
