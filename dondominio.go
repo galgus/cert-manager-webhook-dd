@@ -205,7 +205,7 @@ func (c *Client) NewRequest(method, path string, reqBody interface{}) (*http.Req
 	body.Set("apiuser", c.AppKey)
 	body.Set("apipasswd", c.AppSecret)
 
-	fmt.Fprintf(os.Stdout, "url: %s, body %s\n", path, body.Encode())
+	fmt.Fprintf(os.Stdout, "url: %s\n", path)
 
 	target := fmt.Sprintf("%s%s", c.endpoint, path)
 	req, err := http.NewRequest(method, target, strings.NewReader(body.Encode()))
@@ -324,8 +324,6 @@ func (c *Client) UnmarshalResponse(response *http.Response, resType interface{})
 	if len(body) == 0 || resType == nil {
 		return nil
 	}
-
-	fmt.Printf("body: %s\n", string(body))
 
 	d := json.NewDecoder(bytes.NewReader(body))
 	d.UseNumber()
